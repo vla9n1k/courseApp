@@ -1,4 +1,4 @@
-# vue-course-app
+# Course App
 
 ## Project setup
 ```
