@@ -17,7 +17,7 @@
                 Conditions
             </v-tab>
             <v-tab @click="getInfo('vehicle')">
-                <v-icon left>directions_car</v-icon>
+                <v-icon left>rv_hookup</v-icon>
                 Vehicles
             </v-tab>
             <v-tab @click="getInfo('engine')">
@@ -35,6 +35,10 @@
             <v-tab @click="adminRequest('users')">
                 <v-icon left>account_circle</v-icon>
                 Users
+            </v-tab>
+            <v-tab @click="adminRequest('cars')">
+                <v-icon left>directions_car</v-icon>
+                Cars
             </v-tab>
             <v-tab-item v-cloak>
                 <div>
@@ -232,6 +236,17 @@
                         class="elevation-1 ma-3 "
                 ></v-data-table>
             </v-tab-item>
+            <v-tab-item>
+                <app-loader v-if="!loaded"></app-loader>
+                <v-data-table
+                        :headers="carsHeaders"
+                        :items="cars"
+                        :sort-by.sync="sortBy"
+                        :sort-desc.sync="sortDesc"
+                        item-key="id"
+                        class="elevation-1 ma-3 "
+                ></v-data-table>
+            </v-tab-item>
         </v-tabs>
     </v-card>
 </template>
@@ -284,6 +299,7 @@
                 transactions: [],
                 users: [],
                 orders: [],
+                cars: [],
                 orderStatuses: [],
                 loaded: false,
                 sortBy: 'id',
@@ -330,6 +346,15 @@
                     {text: 'Name', value: 'name'},
                     {text: 'Surname', value: 'surname'},
                     {text: 'Telephone', value: 'telephone'},
+                ],
+                carsHeaders: [
+                    {text: 'Car ID', align: 'start', value: 'id'},
+                    {text: 'Brand', value: 'brand.name'},
+                    {text: 'Model', value: 'model'},
+                    {text: 'Price',value: 'price'},
+                    {text: 'Owner Email', value: 'user.email'},
+                    {text: 'Sell Order created',value: 'createdAt'},
+                    {text: 'Available for sale', value: 'isSold'},
                 ],
             }
         },
@@ -412,6 +437,9 @@
                     case 'users':
                         this.users = data.users;
                         break;
+                    case 'cars':
+                        this.cars = data.cars;
+                        break;
                     default:
                         this.addNotification({
                             id: Date.now(),
@@ -482,6 +510,7 @@
             this.adminRequest('transactions');
             this.adminRequest('orders');
             this.adminRequest('users');
+            this.adminRequest('cars');
             this.getOrderStatuses();
         }
     }
