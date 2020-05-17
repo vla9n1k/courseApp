@@ -21,7 +21,14 @@ export const routes = [
     {path: '/product-add', component: AddProduct},
     {path: '/signup', component: SignUp},
     {path: '/login', component: Login},
-    {path: '/admin', component: AdminControl},
+    {
+        path: '/admin', component: AdminControl, beforeEnter: (to, from, next) => {
+           if (store.getters.getRole === 1) {
+               to('/');
+               next()
+           }
+        }
+    },
 ];
 
 export const router = new VueRouter({
@@ -34,7 +41,7 @@ router.beforeEach((to, from, next) => {
     if (!store.getters.isLogged && to.path !== '/login' && to.path !== '/signup') {
         return next('/login');
     } else if (store.getters.isLogged && to.path === '/login') {
-        return next ('/')
+        return next('/')
     }
     next();
 });
