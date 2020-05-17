@@ -8,8 +8,6 @@ import VueSocketIO from 'vue-socket.io'
 
 Vue.config.productionTip = false;
 
-
-
 Vue.use(new VueSocketIO({
   debug: true,
   connection: process.env.VUE_APP_SERVER_URL,
@@ -17,11 +15,6 @@ Vue.use(new VueSocketIO({
     store,
     actionPrefix: 'SOCKET_',
     mutationPrefix: 'SOCKET_'
-  },
-  sockets: {
-    product: data => {
-      console.log('product created' + data)
-    }
   }
 }));
 
