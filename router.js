@@ -8,6 +8,8 @@ import UserProducts from './views/shop/UserProducts'
 import SignUp from './views/auth/SignUp'
 import Login from './views/auth/Login'
 import AdminControl from "./views/admin/AdminControl";
+import {store} from './store/store'
+
 Vue.use(VueRouter);
 
 export const routes = [
@@ -18,11 +20,21 @@ export const routes = [
     {path: '/orders', component: Orders},
     {path: '/product-add', component: AddProduct},
     {path: '/signup', component: SignUp},
-    {path: '/login', component: Login},
+    {path: '/login', component: Login, name: 'Login'},
     {path: '/admin', component: AdminControl},
 ];
 
 export const router = new VueRouter({
     mode: 'history',
     routes
+});
+
+router.beforeEach((to, from, next) => {
+    store.dispatch('tryAutoLogin');
+    if (!store.getters.isLogged && to.path !== '/login') {
+        return next('/login');
+    } else if (store.getters.isLogged && to.path === '/login') {
+        return next ('/')
+    }
+    next();
 });
