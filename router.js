@@ -20,7 +20,7 @@ export const routes = [
     {path: '/orders', component: Orders},
     {path: '/product-add', component: AddProduct},
     {path: '/signup', component: SignUp},
-    {path: '/login', component: Login, name: 'Login'},
+    {path: '/login', component: Login},
     {path: '/admin', component: AdminControl},
 ];
 
