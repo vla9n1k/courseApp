@@ -1,4 +1,5 @@
 import {router} from '../../router'
+
 const serverUrl = process.env.VUE_APP_SERVER_URL;
 
 const state = {
@@ -26,11 +27,14 @@ const getters = {
 };
 
 const mutations = {
-    'SOCKET_loggedIn'(state,payload) {
+    'SOCKET_loggedIn'(state, payload) {
         state.balance = payload.balance
     },
     'SOCKET_balanceUpdate'(state, payload) {
         state.balance = payload.balance;
+    },
+    'SOCKET_sendStatus'(state, payload) {
+        state.role = payload.statusId
     },
     userLogin(state, userData) {
         state.userId = userData.userId;
@@ -98,7 +102,7 @@ const actions = {
     },
     tryAutoLogin({commit}) {
         const token = localStorage.getItem('token');
-        if(!token) {
+        if (!token) {
             return
         }
         const expiryDate = localStorage.getItem('expiryDate');
@@ -107,6 +111,7 @@ const actions = {
             return
         }
         const userId = localStorage.getItem('id');
+
         commit('userLogin', {
             userId,
             token
