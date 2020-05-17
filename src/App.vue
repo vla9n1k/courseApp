@@ -36,8 +36,6 @@
         },
         created() {
             this.$vuetify.theme.dark = true;
-            const userId = localStorage.getItem('id');
-            this.$socket.emit('getStatus', userId);
             const expiryDate = localStorage.getItem('expiryDate');
             if (!expiryDate) {
                 return

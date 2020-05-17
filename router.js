@@ -23,10 +23,10 @@ export const routes = [
     {path: '/login', component: Login},
     {
         path: '/admin', component: AdminControl, beforeEnter: (to, from, next) => {
-           if (store.getters.getRole === 1) {
-               to('/');
-               next()
+           if (store.getters.getRole === 1 ) {
+               return next('/')
            }
+           next()
         }
     },
 ];

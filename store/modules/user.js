@@ -40,7 +40,6 @@ const mutations = {
         state.userId = userData.userId;
         state.token = userData.token;
         state.isAuth = true;
-        state.role = userData.role;
     },
     clearAuthData(state) {
         state.userId = null;
@@ -100,6 +99,7 @@ const actions = {
         }
         return data
     },
+
     tryAutoLogin({commit}) {
         const token = localStorage.getItem('token');
         if (!token) {
@@ -111,10 +111,11 @@ const actions = {
             return
         }
         const userId = localStorage.getItem('id');
+        this._vm.$socket.emit('getStatus', userId);
 
         commit('userLogin', {
             userId,
-            token
+            token,
         })
     },
     logout({commit}) {
