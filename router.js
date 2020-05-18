@@ -38,10 +38,10 @@ export const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
     store.dispatch('tryAutoLogin');
-    if (!store.getters.isLogged && to.path !== '/login' && to.path !== '/signup') {
+    if (!store.getters.isLogged && to.path !== '/login' && to.path !== '/signup' && to.path !== '/') {
         return next('/login');
     } else if (store.getters.isLogged && to.path === '/login') {
         return next('/')
     }
-    next();
+     next();
 });
